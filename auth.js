@@ -1,4 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // TEST DI CONNESIONE RAPIDO
+const { data, error } = await supabase.from('tasks').select('count', { count: 'exact', head: true });
+if (error) {
+    console.error("❌ Errore di connessione a Supabase:", error.message);
+} else {
+    console.log("✅ Connessione a Supabase stabilita con successo! Le tabelle rispondono.");
+}
     const authForm = document.getElementById("auth-form");
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
