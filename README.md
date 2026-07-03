@@ -7,9 +7,9 @@
 
 **ZenithOS** is a personal, all-in-one productivity workspace designed with a dark, minimal, and futuristic aesthetic. It centralizes everything you need into a single local command center to optimize your computer study and work sessions.
 
-🎯 **[Live Demo — Try ZenithOS Now!](https://YOUR_GITHUB_USERNAME.github.io/zenithos/)**
+🎯 **[Live Demo — Try ZenithOS Now!](https://MFRDS22.github.io/zenithos/)**
 
-*(Note: Replace `YOUR_GITHUB_USERNAME` in the link above with your actual GitHub username!)*
+
 
 ---
 
