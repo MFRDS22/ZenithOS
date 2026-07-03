@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     // TEST DI CONNESIONE RAPIDO
 const { data, error } = await supabase.from('tasks').select('count', { count: 'exact', head: true });
 if (error) {
