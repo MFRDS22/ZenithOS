@@ -1,11 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    // TEST DI CONNESIONE RAPIDO
-const { data, error } = await supabase.from('tasks').select('count', { count: 'exact', head: true });
-if (error) {
-    console.error("❌ Errore di connessione a Supabase:", error.message);
-} else {
-    console.log("✅ Connessione a Supabase stabilita con successo! Le tabelle rispondono.");
-}
+    
     const authForm = document.getElementById("auth-form");
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
@@ -17,8 +11,8 @@ if (error) {
 
     let isLoginMode = true; // true = Login, false = Registrazione
 
-    // Cambia la modalità del form da Accedi a Registrati e viceversa
-    switchAuth.addEventListener("click", () => {
+    // Funzione centralizzata per scambiare la modalità del form senza crash
+    function handleSwitch() {
         isLoginMode = !isLoginMode;
         msgDiv.style.display = "none";
         
@@ -31,11 +25,17 @@ if (error) {
             btnSubmit.textContent = "REGISTRATI";
             toggleText.innerHTML = 'Hai già un account? <span id="switch-auth">Accedi</span>';
         }
-        // Riclassifica il listener sul nuovo elemento span iniettato dinamicamente
-        document.getElementById("switch-auth").addEventListener("click", arguments.callee);
-    });
+        
+        // Riaggancia il click sul nuovo elemento creato dinamicamente nel DOM
+        document.getElementById("switch-auth").addEventListener("click", handleSwitch);
+    }
 
-    // Gestione dell'invio del modulo
+    // Collega il primo click iniziale al caricamento della pagina
+    if (switchAuth) {
+        switchAuth.addEventListener("click", handleSwitch);
+    }
+
+    // Gestione dell'invio del modulo (Login o Registrazione)
     authForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         msgDiv.style.display = "none";
@@ -47,7 +47,7 @@ if (error) {
 
         if (isLoginMode) {
             // LOGIN SUL CLOUD
-            const { data, error } = await supabase.auth.signInWithPassword({
+            const { data, error } = await supabaseClient.auth.signInWithPassword({
                 email: email,
                 password: password,
             });
@@ -64,7 +64,7 @@ if (error) {
             }
         } else {
             // REGISTRAZIONE SUL CLOUD
-            const { data, error } = await supabase.auth.signUp({
+            const { data, error } = await supabaseClient.auth.signUp({
                 email: email,
                 password: password,
             });
@@ -81,6 +81,8 @@ if (error) {
                 toggleText.innerHTML = 'Non hai un account? <span id="switch-auth">Registrati</span>';
                 btnSubmit.disabled = false;
                 passwordInput.value = "";
+                // Riaggancia il listener anche dopo il reset del form
+                document.getElementById("switch-auth").addEventListener("click", handleSwitch);
             }
         }
     });
@@ -88,5 +90,6 @@ if (error) {
     function showMsg(text, type) {
         msgDiv.textContent = text;
         msgDiv.className = `message ${type}`;
+        msgDiv.style.display = "block";
     }
 });
