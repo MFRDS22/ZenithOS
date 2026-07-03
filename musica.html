@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Media Player</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --sidebar-bg: #111827;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --spotify-green: #1db954;
+            --youtube-red: #ff0000;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); display: flex; min-height: 100vh; opacity: 0; }
+
+        /* SIDEBAR */
+        .sidebar { width: 260px; background-color: var(--sidebar-bg); border-right: 1px solid #1f2937; padding: 30px 20px; display: flex; flex-direction: column; gap: 10px; position: fixed; height: 100vh; }
+        .sidebar h2 { font-size: 1.2rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; padding-left: 10px; }
+        .sidebar a { color: var(--text-muted); text-decoration: none; padding: 12px 15px; border-radius: 8px; font-weight: 600; transition: all 0.3s; display: flex; align-items: center; gap: 10px; }
+        .sidebar a:hover, .sidebar a.active { background-color: #1e293b; color: var(--text-main); }
+        .sidebar a.active { border-left: 4px solid var(--accent); }
+
+        /* CONTENUTO PRINCIPALE */
+        .main-content { margin-left: 260px; flex: 1; padding: 40px; }
+
+        header {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 20px;
+        }
+
+        header h1 { font-size: 2.2rem; }
+        header p { color: var(--text-muted); margin-top: 5px; }
+
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+
+        .media-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid #334155;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transform: translateY(20px);
+        }
+
+        .media-card h3 {
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #334155;
+        }
+
+        .media-card.spotify h3 { color: var(--spotify-green); }
+        .media-card.youtube h3 { color: var(--youtube-red); }
+
+        /* PLAYER LOCALE NATIVO SENZA BLOCCHI */
+        .local-player {
+            background: #0f172a;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #1e293b;
+            text-align: center;
+        }
+
+        .local-player audio {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* PULSANTI DI COLLEGAMENTO RAPIDO */
+        .launch-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: transform 0.2s, filter 0.2s;
+            color: white;
+        }
+
+        .launch-btn:hover {
+            transform: scale(1.02);
+            filter: brightness(1.1);
+        }
+
+        .btn-spotify { background-color: var(--spotify-green); }
+        .btn-youtube { background-color: var(--youtube-red); }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+        <h2>Workspace</h2>
+        <a href="index.html">🏠 <span>Home</span></a>
+        <a href="svago.html">🎮 <span>Area 1: Svago & Focus</span></a>
+        <a href="note.html">📝 <span>Area 2: Blocco Note</span></a>
+        <a href="utility.html">🌐 <span>Area 3: Siti Utili</span></a>
+        <a href="musica.html" class="active">🎵 <span>Area 4: Media Player</span></a>
+        <a href="food.html">🍕 <span>Area 5: Food Delivery</span></a>
+    </nav>
+
+    <!-- CONTENUTO PRINCIPALE -->
+    <main class="main-content">
+        <header id="media-header">
+            <h1>Ambiente Media Integrato</h1>
+            <p>Ascolta la musica di sottofondo nativa senza blocchi o apri istantaneamente le tue piattaforme preferite.</p>
+        </header>
+
+        <div class="media-grid">
+            <!-- SEZIONE SPOTIFY -->
+            <div class="media-card spotify media-animate">
+                <h3>🟢 Spotify Web & App</h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">Apri Spotify direttamente sul web o lancia l'applicazione desktop sul tuo computer per ascoltare i tuoi brani senza limiti.</p>
+                
+                <a href="https://open.spotify.com" target="_blank" class="launch-btn btn-spotify">
+                    🎵 Apri il Web Player di Spotify
+                </a>
+
+                <div class="local-player">
+                    <p style="font-size: 0.85rem; font-weight: bold; color: var(--accent);">Radio Ambientale di Backup (Nativa)</p>
+                    <!-- Traccia audio lo-fi di backup royalty-free che non si bloccherà mai -->
+                    <audio controls loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+                </div>
+            </div>
+
+            <!-- SEZIONE YOUTUBE -->
+            <div class="media-card youtube media-animate">
+                <h3>🔴 YouTube hub</h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">Evita i blocchi degli iframe del browser. Accedi alla homepage o lancia i canali di streaming Lo-Fi direttamente in una nuova scheda pulita.</p>
+                
+                <a href="https://www.youtube.com/" target="_blank" class="launch-btn btn-youtube">
+                    📺 Apri YouTube in una nuova Tab
+                </a>
+                
+                <a href="https://www.youtube.com/c/LofiGirl" target="_blank" class="launch-btn style-link" style="background-color: #334155; text-align: center;">
+                    🎧 Vai direttamente al canale di Lofi Girl
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.to("body", { opacity: 1, duration: 0.3 });
+            gsap.from("#media-header", { opacity: 0, y: -20, duration: 0.6 });
+            gsap.to(".media-animate", { opacity: 1, y: 0, duration: 0.6, stagger: 0.2, ease: "power2.out" });
+        });
+    </script>
+</body>
+</html>

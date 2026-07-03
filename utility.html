@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Siti Utili</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --sidebar-bg: #111827;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); display: flex; min-height: 100vh; opacity: 0; }
+
+        /* SIDEBAR (Stessa estetica globale) */
+        .sidebar { width: 260px; background-color: var(--sidebar-bg); border-right: 1px solid #1f2937; padding: 30px 20px; display: flex; flex-direction: column; gap: 10px; position: fixed; height: 100vh; }
+        .sidebar h2 { font-size: 1.2rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; padding-left: 10px; }
+        .sidebar a { color: var(--text-muted); text-decoration: none; padding: 12px 15px; border-radius: 8px; font-weight: 600; transition: all 0.3s; display: flex; align-items: center; gap: 10px; }
+        .sidebar a:hover, .sidebar a.active { background-color: #1e293b; color: var(--text-main); }
+        .sidebar a.active { border-left: 4px solid var(--accent); }
+
+        /* CONTENUTO PRINCIPALE */
+        .main-content { margin-left: 260px; flex: 1; padding: 40px; }
+
+        header {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 20px;
+        }
+
+        header h1 { font-size: 2.2rem; }
+        header p { color: var(--text-muted); margin-top: 5px; }
+
+        /* PANNELLO DI AGGIUNTA LINK */
+        .add-link-panel {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid #334155;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            transform: translateY(20px);
+        }
+
+        .add-link-panel input, .add-link-panel select {
+            background-color: #0b0f19;
+            border: 1px solid #334155;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .add-link-panel input[type="text"] { flex: 2; }
+        .add-link-panel input[type="url"] { flex: 3; }
+
+        /* GRIGLIA DELLE CATEGORIE */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .category-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #334155;
+            transform: translateY(20px);
+        }
+
+        .category-card h3 {
+            font-size: 1.1rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .links-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .link-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #151f32;
+            padding: 10px 15px;
+            border-radius: 6px;
+            border: 1px solid #1e293b;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .link-item:hover {
+            transform: translateX(3px);
+            background-color: #1a263f;
+        }
+
+        .link-item a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .link-item a:hover { color: var(--accent); }
+
+        .btn-delete-link {
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 0 5px;
+        }
+
+        button.btn-primary {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            background-color: var(--accent);
+            color: #0b0f19;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        button.btn-primary:hover { transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+        <h2>Workspace</h2>
+        <a href="index.html">🏠 <span>Home</span></a>
+        <a href="svago.html">🎮 <span>Area 1: Svago & Focus</span></a>
+        <a href="note.html">📝 <span>Area 2: Blocco Note</span></a>
+        <a href="utility.html" class="active">🌐 <span>Area 3: Siti Utili</span></a>
+        <a href="musica.html">🎵 <span>Area 4: Media Player</span></a>
+        <a href="food.html">🍕 <span>Area 5: Food Delivery</span></a>
+    </nav>
+
+    <!-- CONTENUTO PRINCIPALE -->
+    <main class="main-content">
+        <header id="utility-header">
+            <h1>Bacheca dei Siti Utili</h1>
+            <p>I tuoi segnalibri essenziali raccolti in un unico posto per evitare di perdere tempo tra i tab del browser.</p>
+        </header>
+
+        <!-- AGGIUNGI LINK -->
+        <div class="add-link-panel utility-animate">
+            <input type="text" id="link-name" placeholder="Nome del sito (es. Google)">
+            <input type="url" id="link-url" placeholder="URL (es. https://google.com)">
+            <select id="link-category">
+                <option value="studio">📚 Studio & Documentazione</option>
+                <option value="lavoro">💼 Lavoro & Produttività</option>
+                <option value="ai">🤖 Strumenti AI</option>
+                <option value="svago">🍿 Svago & Relax</option>
+            </select>
+            <button class="btn-primary" id="btn-add-link">Aggiungi Link</button>
+        </div>
+
+        <!-- GRIGLIA SITI -->
+        <div class="categories-grid">
+            <div class="category-card utility-animate">
+                <h3>📚 Studio & Documentazione</h3>
+                <ul class="links-list" id="cat-studio"></ul>
+            </div>
+
+            <div class="category-card utility-animate">
+                <h3>💼 Lavoro & Produttività</h3>
+                <ul class="links-list" id="cat-lavoro"></ul>
+            </div>
+
+            <div class="category-card utility-animate">
+                <h3>🤖 Strumenti AI</h3>
+                <ul class="links-list" id="cat-ai"></ul>
+            </div>
+
+            <div class="category-card utility-animate">
+                <h3>🍿 Svago & Relax</h3>
+                <ul class="links-list" id="cat-svago"></ul>
+            </div>
+        </div>
+    </main>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.to("body", { opacity: 1, duration: 0.3 });
+            gsap.from("#utility-header", { opacity: 0, y: -20, duration: 0.6 });
+            gsap.to(".utility-animate", { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: "power2.out" });
+        });
+
+        // Link predefiniti se il localStorage è vuoto
+        const defaultLinks = [
+            { name: "Wikipedia", url: "https://wikipedia.org", category: "studio" },
+            { name: "GitHub", url: "https://github.com", category: "lavoro" },
+            { name: "ChatGPT", url: "https://chatgpt.com", category: "ai" },
+            { name: "YouTube", url: "https://youtube.com", category: "svago" }
+        ];
+
+        let savedLinks = JSON.parse(localStorage.getItem('workspace_links')) || defaultLinks;
+
+        function renderLinks() {
+            // Svuota le liste
+            document.querySelectorAll('.links-list').forEach(list => list.innerHTML = '');
+
+            savedLinks.forEach((link, index) => {
+                const li = document.createElement('li');
+                li.className = 'link-item';
+                li.innerHTML = `
+                    <a href="${link.url}" target="_blank">🔗 ${link.name}</a>
+                    <button class="btn-delete-link" onclick="deleteLink(${index})">✕</button>
+                `;
+                const container = document.getElementById(`cat-${link.category}`);
+                if (container) {
+                    container.appendChild(li);
+                }
+            });
+        }
+
+        document.getElementById('btn-add-link').addEventListener('click', () => {
+            const nameInput = document.getElementById('link-name');
+            const urlInput = document.getElementById('link-url');
+            const catSelect = document.getElementById('link-category');
+
+            if (nameInput.value.trim() === '' || urlInput.value.trim() === '') {
+                alert('Compila sia il nome che l\'indirizzo web!');
+                return;
+            }
+
+            let url = urlInput.value.trim();
+            if (!/^https?:\/\//i.test(url)) {
+                url = 'https://' + url; // Aggiunge https se manca
+            }
+
+            savedLinks.push({
+                name: nameInput.value.trim(),
+                url: url,
+                category: catSelect.value
+            });
+
+            localStorage.setItem('workspace_links', JSON.stringify(savedLinks));
+            nameInput.value = '';
+            urlInput.value = '';
+            renderLinks();
+        });
+
+        window.deleteLink = function(index) {
+            savedLinks.splice(index, 1);
+            localStorage.setItem('workspace_links', JSON.stringify(savedLinks));
+            renderLinks();
+        };
+
+        // Render iniziale
+        renderLinks();
+    </script>
+</body>
+</html>

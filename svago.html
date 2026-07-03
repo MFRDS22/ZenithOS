@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Focus & Sessioni</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --sidebar-bg: #111827;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); display: flex; min-height: 100vh; opacity: 0; }
+
+        /* SIDEBAR (Stessa estetica della home) */
+        .sidebar { width: 260px; background-color: var(--sidebar-bg); border-right: 1px solid #1f2937; padding: 30px 20px; display: flex; flex-direction: column; gap: 10px; position: fixed; height: 100vh; }
+        .sidebar h2 { font-size: 1.2rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; padding-left: 10px; }
+        .sidebar a { color: var(--text-muted); text-decoration: none; padding: 12px 15px; border-radius: 8px; font-weight: 600; transition: all 0.3s; display: flex; align-items: center; gap: 10px; }
+        .sidebar a:hover, .sidebar a.active { background-color: #1e293b; color: var(--text-main); }
+        .sidebar a.active { border-left: 4px solid var(--accent); }
+
+        .main-content { margin-left: 260px; flex: 1; padding: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+        .timer-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            border: 1px solid #334155;
+            max-width: 500px;
+            width: 100%;
+            transform: translateY(20px);
+        }
+
+        .timer-card h2 { font-size: 1.8rem; margin-bottom: 10px; color: var(--accent); }
+        .timer-card p { color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem; }
+
+        .timer-display {
+            font-size: 5.5rem;
+            font-weight: bold;
+            font-family: monospace;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+
+        .timer-controls { display: flex; justify-content: center; gap: 20px; }
+        button { padding: 12px 28px; border: none; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; transition: all 0.2s; }
+        button:hover { transform: scale(1.03); opacity: 0.9; }
+        .btn-start { background-color: var(--accent); color: #0b0f19; }
+        .btn-reset { background-color: #475569; color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+        <h2>Workspace</h2>
+        <a href="index.html">🏠 <span>Home</span></a>
+        <a href="svago.html" class="active">🎮 <span>Area 1: Svago & Focus</span></a>
+        <a href="note.html">📝 <span>Area 2: Blocco Note</span></a>
+        <a href="utility.html">🌐 <span>Area 3: Siti Utili</span></a>
+        <a href="musica.html">🎵 <span>Area 4: Media Player</span></a>
+        <a href="food.html">🍕 <span>Area 5: Food Delivery</span></a>
+    </nav>
+
+    <!-- CONTENUTO INTERNO -->
+    <main class="main-content">
+        <div class="timer-card" id="focus-panel">
+            <h2>Sessione Focus / Studio</h2>
+            <p>Lavora intensamente senza distrazioni fino allo scadere del tempo.</p>
+            <div class="timer-display" id="timer">25:00</div>
+            <div class="timer-controls">
+                <button class="btn-start" id="btn-start">Avvia Focus</button>
+                <button class="btn-reset" id="btn-reset">Reset</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.to("body", { opacity: 1, duration: 0.3 });
+            gsap.to("#focus-panel", { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" });
+        });
+
+        let timerDuration = 25 * 60;
+        let timerInterval = null;
+        const timerDisplay = document.getElementById('timer');
+        const btnStart = document.getElementById('btn-start');
+        const btnReset = document.getElementById('btn-reset');
+
+        function updateTimerDisplay(seconds) {
+            const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const s = (seconds % 60).toString().padStart(2, '0');
+            timerDisplay.textContent = `${m}:${s}`;
+        }
+
+        btnStart.addEventListener('click', () => {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                btnStart.textContent = 'Riprendi';
+                gsap.to(timerDisplay, { scale: 1, color: "#f8fafc", duration: 0.2 });
+            } else {
+                btnStart.textContent = 'Pausa';
+                gsap.to(timerDisplay, { scale: 1.05, color: "#38bdf8", duration: 0.2 });
+                timerInterval = setInterval(() => {
+                    if (timerDuration > 0) {
+                        timerDuration--;
+                        updateTimerDisplay(timerDuration);
+                    } else {
+                        clearInterval(timerInterval);
+                        alert("Sessione terminata! Riposati.");
+                        timerDuration = 25 * 60;
+                        updateTimerDisplay(timerDuration);
+                        btnStart.textContent = 'Avvia Focus';
+                        gsap.to(timerDisplay, { scale: 1, color: "#f8fafc", duration: 0.2 });
+                    }
+                }, 1000);
+            }
+        });
+
+        btnReset.addEventListener('click', () => {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            timerDuration = 25 * 60;
+            updateTimerDisplay(timerDuration);
+            btnStart.textContent = 'Avvia Focus';
+            gsap.to(timerDisplay, { scale: 1, color: "#f8fafc", duration: 0.2 });
+        });
+    </script>
+</body>
+</html>

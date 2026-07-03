@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Food Delivery</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --sidebar-bg: #111827;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            
+            /* Brand Colors */
+            --glovo-yellow: #ffc72c;
+            --deliveroo-teal: #00cdbc;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); display: flex; min-height: 100vh; opacity: 0; }
+
+        /* SIDEBAR (Stile globale unificato) */
+        .sidebar { width: 260px; background-color: var(--sidebar-bg); border-right: 1px solid #1f2937; padding: 30px 20px; display: flex; flex-direction: column; gap: 10px; position: fixed; height: 100vh; }
+        .sidebar h2 { font-size: 1.2rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; padding-left: 10px; }
+        .sidebar a { color: var(--text-muted); text-decoration: none; padding: 12px 15px; border-radius: 8px; font-weight: 600; transition: all 0.3s; display: flex; align-items: center; gap: 10px; }
+        .sidebar a:hover, .sidebar a.active { background-color: #1e293b; color: var(--text-main); }
+        .sidebar a.active { border-left: 4px solid var(--accent); }
+
+        /* CONTENUTO PRINCIPALE */
+        .main-content { margin-left: 260px; flex: 1; padding: 40px; }
+
+        header {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 20px;
+        }
+
+        header h1 { font-size: 2.2rem; }
+        header p { color: var(--text-muted); margin-top: 5px; }
+
+        /* GRIGLIA FOOD DELIVERY */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 900px;
+        }
+
+        .food-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 40px 30px;
+            border: 1px solid #334155;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            transform: translateY(20px);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .food-card:hover {
+            transform: translateY(-5px) !important;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        .food-logo {
+            font-size: 4rem;
+            line-height: 1;
+        }
+
+        .food-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Colori dinamici per i brand */
+        .card-glovo h3 { color: var(--glovo-yellow); }
+        .card-deliveroo h3 { color: var(--deliveroo-teal); }
+
+        .food-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .order-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            color: #0b0f19;
+            transition: filter 0.2s;
+            text-align: center;
+        }
+
+        .order-btn:hover {
+            filter: brightness(1.1);
+        }
+
+        .btn-glovo { background-color: var(--glovo-yellow); }
+        .btn-deliveroo { background-color: var(--deliveroo-teal); color: white; }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+        <h2>Workspace</h2>
+        <a href="index.html">🏠 <span>Home</span></a>
+        <a href="svago.html">🎮 <span>Area 1: Svago & Focus</span></a>
+        <a href="note.html">📝 <span>Area 2: Blocco Note</span></a>
+        <a href="utility.html">🌐 <span>Area 3: Siti Utili</span></a>
+        <a href="musica.html">🎵 <span>Area 4: Media Player</span></a>
+        <a href="food.html" class="active">🍕 <span>Area 5: Food Delivery</span></a>
+    </nav>
+
+    <!-- CONTENUTO PRINCIPALE -->
+    <main class="main-content">
+        <header id="food-header">
+            <h1>Food Delivery Hub</h1>
+            <p>Ordina il tuo pranzo o la tua cena al volo sfruttando i servizi attivi e ottimizzati per il tuo workspace.</p>
+        </header>
+
+        <div class="food-grid">
+            <!-- GLOVO -->
+            <div class="food-card card-glovo food-animate">
+                <div class="food-logo">🟡</div>
+                <h3>Glovo</h3>
+                <p>Perfetto per ordinare cibo dai ristoranti, fare una spesa rapida dell'ultimo minuto o richiedere consegne personalizzate nella tua città.</p>
+                <a href="https://glovoapp.com" target="_blank" class="order-btn btn-glovo">Apri Glovo</a>
+            </div>
+
+            <!-- DELIVEROO -->
+            <div class="food-card card-deliveroo food-animate">
+                <div class="food-logo">🟢</div>
+                <h3>Deliveroo</h3>
+                <p>Ideale per ordinare dai tuoi ristoranti preferiti e dalle grandi catene con un sistema di tracciamento della consegna preciso e in tempo reale.</p>
+                <a href="https://deliveroo.it" target="_blank" class="order-btn btn-deliveroo">Apri Deliveroo</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.to("body", { opacity: 1, duration: 0.3 });
+            gsap.from("#food-header", { opacity: 0, y: -20, duration: 0.6 });
+            gsap.to(".food-animate", { opacity: 1, y: 0, duration: 0.6, stagger: 0.15, ease: "power2.out" });
+        });
+    </script>
+</body>
+</html>

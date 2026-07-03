@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stazione di Controllo Personale</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --sidebar-bg: #111827;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --urgent: #ef4444;
+            --important: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            opacity: 0;
+        }
+
+        /* SIDEBAR DI NAVIGAZIONE */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid #1f2937;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .sidebar h2 {
+            font-size: 1.2rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            padding-left: 10px;
+        }
+
+        .sidebar a {
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #1e293b;
+            color: var(--text-main);
+        }
+        
+        .sidebar a.active {
+            border-left: 4px solid var(--accent);
+        }
+
+        /* CONTENUTO PRINCIPALE */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 40px;
+        }
+
+        header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 20px;
+        }
+
+        header h1 { font-size: 2.2rem; }
+        header p { color: var(--text-muted); margin-top: 5px; }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 1000px) {
+            .main-layout { grid-template-columns: 1fr; }
+            .sidebar { width: 70px; padding: 20px 10px; }
+            .sidebar h2, .sidebar span { display: none; }
+            .main-content { margin-left: 70px; }
+        }
+
+        .panel {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid #334155;
+            transform: translateY(20px);
+        }
+
+        /* GESTIONE TASK COMPATTE NELLA HOME */
+        .task-input-group { display: flex; gap: 10px; margin: 20px 0; }
+        input, select {
+            background-color: #0f172a; border: 1px solid #334155;
+            color: white; padding: 10px; border-radius: 6px; outline: none;
+        }
+        input[type="text"] { flex: 1; }
+        .matrix-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .quadrant { background-color: #151f32; border-radius: 8px; padding: 12px; min-height: 120px; border-top: 3px solid #475569; }
+        .quadrant.q1 { border-top-color: var(--urgent); }
+        .quadrant.q2 { border-top-color: var(--important); }
+        .task-item { display: flex; justify-content: space-between; background-color: var(--card-bg); padding: 6px 10px; border-radius: 4px; margin-bottom: 6px; font-size: 0.9rem; border: 1px solid #334155; opacity: 0; transform: scale(0.9); }
+        .delete-task { color: #ef4444; cursor: pointer; background: none; border: none; }
+        
+        button { padding: 10px 15px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: transform 0.2s; }
+        button:hover { transform: scale(1.02); }
+        .btn-primary { background-color: var(--accent); color: #0b0f19; }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR FISSA DI NAVIGAZIONE -->
+    <nav class="sidebar">
+        <h2>Workspace</h2>
+        <a href="index.html" class="active">🏠 <span>Home</span></a>
+        <a href="svago.html">🎮 <span>Area 1: Svago & Focus</span></a>
+        <a href="note.html">📝 <span>Area 2: Blocco Note</span></a>
+        <a href="utility.html">🌐 <span>Area 3: Siti Utili</span></a>
+        <a href="musica.html">🎵 <span>Area 4: Media Player</span></a>
+        <a href="food.html">🍕 <span>Area 5: Food Delivery</span></a>
+    </nav>
+
+    <!-- CONTENUTO DELLA HOME -->
+    <main class="main-content">
+        <header id="main-header">
+            <h1>Pannello di Controllo</h1>
+            <p>Bentornato. Ecco la panoramica rapida dei tuoi impegni prioritari.</p>
+        </header>
+
+        <div class="main-layout">
+            <div class="panel panel-animate">
+                <h3>Benvenuto</h3>
+                <p style="color: var(--text-muted); margin-top: 15px;">Usa la barra laterale per spostarti tra gli strumenti di studio, lavoro o relax.</p>
+            </div>
+
+            <!-- ANTEPRIMA RAPIDA DEI TASK -->
+            <div class="panel panel-animate">
+            <h2>Gestione Task (Matrice di Eisenhower)</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">
+                Organizza i compiti in base alla priorità reale, non solo all'urgenza.
+            </p>
+            
+            <div class="task-input-group">
+                <input type="text" id="task-text" placeholder="Cosa devi fare?">
+                <select id="task-quadrant">
+                    <option value="q1">Urgente & Importante</option>
+                    <option value="q2">Importante (Non Urgente)</option>
+                    <option value="q3">Urgente (Non Importante)</option>
+                    <option value="q4">Non Urgente & Inutile</option>
+                </select>
+                <button class="btn-primary" id="btn-add-task">Aggiungi</button>
+            </div>
+
+            <div class="matrix-container">
+                <div class="quadrant q1">
+                    <h3>🔴 Fai Subito <small style="color: var(--urgent)">Urgente/Imp.</small></h3>
+                    <ul class="task-list" id="list-q1"></ul>
+                </div>
+                <div class="quadrant q2">
+                    <h3>🟠 Pianifica <small style="color: var(--important)">Importante</small></h3>
+                    <ul class="task-list" id="list-q2"></ul>
+                </div>
+                <div class="quadrant q3">
+                    <h3>🔵 Delega / Automatizza</h3>
+                    <ul class="task-list" id="list-q3"></ul>
+                </div>
+                <div class="quadrant q4">
+                    <h3>⚪ Elimina / Svago</h3>
+                    <ul class="task-list" id="list-q4"></ul>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.to("body", { opacity: 1, duration: 0.3 });
+            gsap.from("#main-header", { opacity: 0, y: -20, duration: 0.6 });
+            gsap.to(".panel-animate", { opacity: 1, y: 0, duration: 0.6, stagger: 0.15 });
+        });
+
+  const btnAddTask = document.getElementById('btn-add-task');
+        const taskText = document.getElementById('task-text');
+        const taskQuadrant = document.getElementById('task-quadrant');
+
+        let savedTasks = JSON.parse(localStorage.getItem('workspace_tasks')) || [];
+
+        function renderTasks(animateLastOnly = false) {
+            // Svuota i vecchi nodi DOM
+            document.querySelectorAll('.task-list').forEach(el => el.innerHTML = '');
+            
+            savedTasks.forEach((task, index) => {
+                const li = document.createElement('li');
+                li.className = 'task-item';
+                li.id = `task-${index}`;
+                li.innerHTML = `
+                    <span>${task.text}</span>
+                    <button class="delete-task" onclick="deleteTask(event, ${index})">✕</button>
+                `;
+                document.getElementById(`list-${task.quadrant}`).appendChild(li);
+                
+                if (!animateLastOnly || index !== savedTasks.length - 1) {
+                    gsap.set(li, { opacity: 1, scale: 1 });
+                }
+            });
+
+            if (animateLastOnly && savedTasks.length > 0) {
+                const lastIdx = savedTasks.length - 1;
+                gsap.to(`#task-${lastIdx}`, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" });
+            }
+        }
+
+        btnAddTask.addEventListener('click', () => {
+            if (taskText.value.trim() === '') return;
+            
+            savedTasks.push({
+                text: taskText.value,
+                quadrant: taskQuadrant.value
+            });
+            
+            localStorage.setItem('workspace_tasks', JSON.stringify(savedTasks));
+            taskText.value = '';
+            renderTasks(true);
+        });
+
+        window.deleteTask = function(event, index) {
+            const taskElement = event.target.closest('.task-item');
+            
+            gsap.to(taskElement, { 
+                opacity: 0, 
+                scale: 0.8, 
+                x: -20, 
+                duration: 0.3, 
+                onComplete: () => {
+                    savedTasks.splice(index, 1);
+                    localStorage.setItem('workspace_tasks', JSON.stringify(savedTasks));
+                    renderTasks(false);
+                }
+            });
+        }
+
+        // Caricamento iniziale dei dati persistenti
+        renderTasks(false);
+    </script>
+</body>
+</html>      
